@@ -27,9 +27,10 @@ func CheckExist(name string, email string) int {
 	if namenum != 0 {
 		return repectname
 	} else if emailnum != 0 {
-		return repectemail
+		// return repectemail
+		mylog.Println("允许邮件重复成功,emial is :",email)
+		return enable	//用于测试，允许向相同邮箱发送邮件
 	}
-	fmt.Println("check exist is ok ! return enable")
 	return enable
 }
 
@@ -46,7 +47,6 @@ func CreateAccount(name, email, password string) int {
 		mylog.Errorlog.Println("Create Account Error! res.RowsAffected() is 0 ! name,email,password is:", name, email, password)
 		return worng
 	}
-	fmt.Println("Create account scuess ", name)	//$$$$$$$$$$$$$$
 	return scuess
 }
 
@@ -66,11 +66,10 @@ func CreateComfirmCode(name, email, password string) string{
 		mylog.Errorlog.Println("Insert into regcode Error! name,email,password is:", name, email, password)
 		return ""
 	}
-	fmt.Println("Create comfirm code ", code)	//$$$$$$$$$$$$$$
 	return code
 }
 
-//take the comfrim code from database and compare the given from user, anlelyse the time lap is also needed
+//take the comfrim code from database and compare the given from user, anlelysing the time lap is also needed
 //templace: select code, age( stime, now() ) from regcode where npe = 'blackdrive...' and state < 10 order by stime desc limit 1;
 func CompareCode(name, email, password, code string) int {
 	nep :=  name + "@" + email + "@" + password
@@ -89,5 +88,23 @@ func CompareCode(name, email, password, code string) int {
 	if tools.ParseTimeLap(lap) == disable || ocode!=code {
 		return disable
 	}
+	DeleteCode(name,email,password,code)
 	return enable
+}
+
+//if the comfirm code is scuessfuly paired with user code, we should forbid it being used again
+//templace:update regcode set state = 999 where npe = 'adsf' and code = '260121';
+func DeleteCode(name,email,password,code string) int {
+	nep :=  name + "@" + email + "@" + password
+	commant := `update regcode set state = 999 where npe = $1 and code = $2`
+	res, err := db.Exec(commant, nep, code)
+	if tools.HandleError("databaes->DeleteCode->Exec ", err, 1) {
+		return othererror
+	}
+	rownum, _ := res.RowsAffected()
+	if rownum != 1 {
+		mylog.Log("delete comfrim number don't equal to 1 ！ rownum is ",rownum)
+		return othererror
+	} 
+	return scuess
 }

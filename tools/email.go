@@ -60,7 +60,7 @@ func SendConfrimEmail(account data.Account1, index int) int {
         HandleError("Send email fall,",err,1)
         return othererror
     }else{
-       mylog.Log("Send Email scuess to " + toEmail)
+       mylog.Println("Send Email scuess to " + toEmail)
        return scuess
     }
 }
@@ -85,9 +85,9 @@ func createEmail(toEmail string, num int, username string ,code string)( message
         message += fmt.Sprintf("%s: %s\r\n", k, v)
     }
     message += "\r\n" + fmt.Sprintf(confrimBody ,num, username, code)
-    fmt.Println("--------------------")
-    fmt.Println(message)
-    fmt.Println("--------------------")
+    mylog.Println("-------------------- the following is the sended email -------------- ")
+    mylog.Println(message)
+    mylog.Println("-----------------------------------------------------------------------")
     return message
 }
 

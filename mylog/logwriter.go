@@ -43,11 +43,22 @@ func init() {
 	Taglog = log.New(tfp, "", 3)
 }
 
-func Log(any interface{}) {
-	fmt.Println(any)
-	Taglog.Println(any)
+func Log(any ...interface{}) {
+	for _,y := range any{
+		fmt.Print(y)
+		Taglog.Print(y)
+	}
+	fmt.Println("")
+	Taglog.Println("")
 }
-
+func Println(any ...interface{}){
+	for _,y := range any{
+		fmt.Print(y)
+		Msglog.Print(y)
+	}
+	fmt.Println("")
+	Msglog.Println("")
+}
 /*
 //if you write the method like the folowing links do,
 //it would not record the position of error !

@@ -50,21 +50,24 @@ func ConfirMsg(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	account.Code = comfirmcode
-	fmt.Println( "create comfirm code scuess, code is : ", comfirmcode)
+	mylog.Println( "create comfirm code scuess, code is : ", comfirmcode)
 	//dont need to send email when in testing
 	if config.SendEmail != "true" {
 		tools.WriteJson(w,enable)
 		return
 	}
+	userindex := database.CountUser()
+	mylog.Println("count account result is :", userindex)
 	//send the comfrim code to the user email ,return othererror or scuess
-	if tools.SendConfrimEmail(account, 123123) != scuess{
+	if tools.SendConfrimEmail(account, userindex) != scuess{
 		tools.WriteJson(w, othererror)
 		return
 	}
-
 	tools.WriteJson(w,enable)
 	return
 }
+
+
 
 //after send an email to user and now user send the confirm code back
 //we should save the account in the database after check the confrim before
@@ -90,6 +93,7 @@ func ConfirmCode(w http.ResponseWriter, r *http.Request) {
 		tools.WriteJson(w, res)
 		return
 	}
+	//if the comfim code is right, then create account , it will autoly delete the comfrim in database
 	result := database.CreateAccount(data.Name, data.Email, data.Password)
 	tools.WriteJson(w, result)	//scuess or worng or othererror
 }
