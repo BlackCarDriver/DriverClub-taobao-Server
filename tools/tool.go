@@ -22,6 +22,11 @@ var (
 	repectemail = -30
 	othererror  = -99
 )
+var r *rand.Rand
+
+func init(){
+	r = rand.New(rand.NewSource(time.Now().Unix()))
+}
 
 //write json code to responsewriter
 func WriteJson(w http.ResponseWriter, data interface{}) {
@@ -101,3 +106,12 @@ func CheckFormat(name,email,password string) bool{
 	return(nameres && emailres && passwordres)
 }
 
+//create rande string 
+func CreateRandString(len int) string{
+	bytes := make([]byte, len)
+    for i := 0; i < len; i++ {
+        b := r.Intn(26) + 97
+        bytes[i] = byte(b)
+	}
+    return string(bytes)
+}

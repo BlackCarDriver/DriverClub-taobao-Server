@@ -22,17 +22,20 @@ func MakeCookie(key string, value string, time int)(ck http.Cookie) {
 }
 //set cookie on user
 func SetCookietest(w http.ResponseWriter){
-	ck := MakeCookie("testkey", "testvalue", 30)
+	randkey := CreateRandString(18)
+	fmt.Println("randky save to cookie is :" , randkey)
+	ck := MakeCookie("carkey", randkey, 30)
 	http.SetCookie(w, &ck)
 }
 //reade cookie from user
-func ReadCookieTest(req *http.Request){
-	ck, err := req.Cookie("key_name")
+func ReadCookieTest(req *http.Request)bool{
+	ck, err := req.Cookie("carkey")
     if err != nil {
-       fmt.Println(err)
+	   fmt.Println(err)
+	   return false
 	}
 	fmt.Println(ck)
-	GetIptest(req)
+	return true
 }
 
 //get client ip from request header

@@ -13,6 +13,7 @@ import (
 )
 
 func main() {
+	mylog.Println("Laster!")
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", router.Test_connect)
 	mux.HandleFunc("/data", router.TestData)
@@ -34,8 +35,9 @@ func main() {
 	mux.HandleFunc("/regeister/confirmcode", router.ConfirmCode)
 	mux.HandleFunc("/test2", router.Test2)
 	mux.HandleFunc("/test1", router.Test1)
-	//test database connect 
-	database.Testconnect()
+	//take vetfiy data from database to map
+	go database.GetDataFromDb()
+	//listen the interupt signal and execute some function
 	go destructor()
 	//set mux server
 	server := &http.Server{
@@ -62,5 +64,7 @@ func destructor(){
 	signal.Notify(c) 	//Monitor all signal
 	sin := <-c 	
 	mylog.Log("The system is interrupt, signal is " , sin)
+	//save the data from map to database
+	database.SaveDataToDb()
 	os.Exit(3)
 }
