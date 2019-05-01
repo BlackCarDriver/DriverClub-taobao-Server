@@ -26,14 +26,21 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		tools.WriteJson(w, unknowerr)
 		return
 	}
+	//return result include othererror,disable,enable
 	res := database.CheckLoginPassword(account)
-	fmt.Println(res)
+	if res == enable {
+		createVtify(account.Name,w,r)
+	}
+	//reminder user if his broswer can not save the cookie
+	if  tools.TestCookie(w,r) == false {
+		tools.WriteJson(w,worng)
+	}
 	tools.WriteJson(w, res)
 }
 
 //after an user login, we should save an randan string as token in 
 //user cookie , and also recode the it and user ip in map, 
-func CreateVtify(username string, w http.ResponseWriter, r *http.Request){
+func createVtify(username string, w http.ResponseWriter, r *http.Request){
 	userkey := tools.SetVtfCookie(w)
 	userip := tools.GetIp(r)
 	database.InsertMap(username, userkey, userip)
@@ -42,9 +49,7 @@ func CreateVtify(username string, w http.ResponseWriter, r *http.Request){
 
 //evaluate the security of message that user loging,both the ip and key of user
 //are same to the  map will return 2, if just the key right return 1
-func Vertify(username string, r *http.Request)int {
-	//tools.DispalyMap(database.IpMap)
-	//tools.DispalyMap(database.KeyMap)
+func vertify(username string, r *http.Request)int {
 	mrk := database.KeyMap[username] 
 	mip := database.IpMap[username]
 	if mrk == "" || mip =="" {

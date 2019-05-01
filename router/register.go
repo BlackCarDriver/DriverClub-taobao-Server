@@ -91,18 +91,20 @@ func ConfirmCode(w http.ResponseWriter, r *http.Request) {
 		tools.WriteJson(w, res)
 		return
 	}
-	//if the comfim code is right, then create account , it will autoly delete the comfrim in database
+	//if the comfim code is right, then create account
 	result := database.CreateAccount(data.Name, data.Email, data.Password)
 	tools.WriteJson(w, result)	//scuess or worng or othererror
 }
 
-//test the function of database
+
 func Test1(w http.ResponseWriter, r *http.Request){
-	CreateVtify("blackcardriver",w,r)
+	res := tools.TestCookie(w,r)
+	fmt.Println(res)
+	tools.WriteJson(w,res)
 }
 
 func Test2(w http.ResponseWriter, r *http.Request){
-	res := Vertify("blackcardriver" ,r)
+	res := vertify("blackcardriver" ,r)
 	fmt.Println("the vertify result is ",res)
 }
 

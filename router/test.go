@@ -23,7 +23,7 @@ var goodstext string = "undefine"
 
 func Test_connect(w http.ResponseWriter, r *http.Request) {
 	tools.SetHeader(w)
-	tools.WriteJson(w, "connnect scuess!!!")
+	tools.WriteJson(w, "version :5-1-6-45")
 }
 
 //send back goods message

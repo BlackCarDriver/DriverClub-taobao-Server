@@ -54,4 +54,11 @@ func GetIp(r *http.Request)string{
 	}
 	return remoteAddr
 }
-
+//check if the user forbid the browser save the cookie, return flase if 
+//can not save the cookie on user boswer
+func TestCookie(w http.ResponseWriter,r *http.Request)bool{
+	ck := MakeCookie("drivertest","hellow,I am BlackCarDriver!",10)
+	http.SetCookie(w, &ck)
+	_, err := r.Cookie("drivertest")
+	return (err != nil)
+}

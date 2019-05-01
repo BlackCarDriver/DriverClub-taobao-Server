@@ -13,7 +13,7 @@ import (
 )
 
 func main() {
-	mylog.Println("Laster!")
+	mylog.Println("605")
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", router.Test_connect)
 	mux.HandleFunc("/data", router.TestData)
