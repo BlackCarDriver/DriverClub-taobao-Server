@@ -11,6 +11,8 @@ state 	INT DEFAULT 1,
 PRIMARY KEY (id)
 );
 
+--4-30
+alter table account add sid varchar(8);
 
 
 
@@ -177,3 +179,12 @@ $example_table$ LANGUAGE plpgsql;
 CREATE TRIGGER init_user_msg AFTER INSERT ON account
 FOR EACH ROW EXECUTE PROCEDURE auditlogfunc();
 
+--add in 4-30
+create table token(
+tkey varchar(20) primary key,
+token varchar(25)
+);
+
+
+--still need to do:
+-- add a primary key for regcode table

@@ -3,7 +3,9 @@ package main
 import (
 	//"errors"
 	"net/http"
-
+	"os"
+	"os/signal" 
+	"./mylog"
 	"./config"
 	"./database"
 	"./router"
@@ -31,8 +33,10 @@ func main() {
 	mux.HandleFunc("/register/confirmmsg", router.ConfirMsg)
 	mux.HandleFunc("/regeister/confirmcode", router.ConfirmCode)
 	mux.HandleFunc("/test2", router.Test2)
-	//connect to database
-	database.Testdb()
+	mux.HandleFunc("/test1", router.Test1)
+	//test database connect 
+	database.Testconnect()
+	go destructor()
 	//set mux server
 	server := &http.Server{
 		Addr:           config.Listen_addr,
@@ -49,4 +53,14 @@ func main() {
 	}
 	tools.HandleError("Worng at ListenAndServe,", err, -1)
 	return
+}
+
+//destructor function, write the function that need to execute after
+//the program need to interrupt
+func destructor(){
+	c := make(chan os.Signal)
+	signal.Notify(c) 	//Monitor all signal
+	sin := <-c 	
+	mylog.Log("The system is interrupt, signal is " , sin)
+	os.Exit(3)
 }

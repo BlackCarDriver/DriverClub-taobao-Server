@@ -147,13 +147,13 @@ func list_config() {
 	mylog.Log("DataBasePort " + strconv.Itoa(Dbport))
 	mylog.Log("DataBaseUserName " + Dbuser)
 	mylog.Log("UsingDatabase " + Dbname)
-	mylog.Log("Dbpassword " + Dbpassword)
-	mylog.Log("SendEmail " + SendEmail)
-	mylog.Log("Emailhost " + Emailhost )
-	mylog.Log("Emailport " + strconv.Itoa(Emailport))
-	mylog.Log("MyAccount " + MyAccount)
-	mylog.Log("FileRoot " + FileRoot)
-	mylog.Log("MyPassword " + MyPassword)
+	//mylog.Log("Dbpassword " + Dbpassword)
+	//mylog.Log("SendEmail " + SendEmail)
+	//mylog.Log("Emailhost " + Emailhost )
+	//mylog.Log("Emailport " + strconv.Itoa(Emailport))
+	//mylog.Log("MyAccount " + MyAccount)
+	//mylog.Log("FileRoot " + FileRoot)
+	//mylog.Log("MyPassword " + MyPassword)
 }
 
 //equal to  a !="" ? a:b

@@ -100,3 +100,4 @@ func CheckFormat(name,email,password string) bool{
 	passwordres := passwordreg.MatchString(password)
 	return(nameres && emailres && passwordres)
 }
+

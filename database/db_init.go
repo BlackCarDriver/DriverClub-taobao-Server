@@ -40,6 +40,6 @@ func init() {
 	fmt.Println("Database Connect Scuess!")
 }
 
-func Testdb() {
-	fmt.Println("ok")
+func Testconnect(){
+	fmt.Print("")
 }

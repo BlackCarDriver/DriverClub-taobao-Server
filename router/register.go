@@ -67,8 +67,6 @@ func ConfirMsg(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-
-
 //after send an email to user and now user send the confirm code back
 //we should save the account in the database after check the confrim before
 func ConfirmCode(w http.ResponseWriter, r *http.Request) {
@@ -100,17 +98,9 @@ func ConfirmCode(w http.ResponseWriter, r *http.Request) {
 
 //test the function of database
 func Test1(w http.ResponseWriter, r *http.Request){
-	fmt.Println("test1 have been call !")
-	res := database.CreateComfirmCode("blackcardriver","teswtats@123.com","123123")
-	fmt.Println("the result is :", res)
-	tools.WriteJson(w, res)	
-	return
+	tools.ReadCookieTest(r)
 }
 
 func Test2(w http.ResponseWriter, r *http.Request){
-	fmt.Println("test2 have been call !")
-	res := database.CompareCode("blackcardriver","teswtats@123.com","123123","746501")
-	fmt.Println("the result is :", res)
-	tools.WriteJson(w, res)
-	return
+	tools.SetCookietest(w)
 }
