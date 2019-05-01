@@ -4,7 +4,6 @@ the function related to take and set cookie in writen in thsi file
 */
 import (
 	"net/http"
-	"../mylog"
 	"../config"
 	"fmt"
 	"net"
@@ -20,26 +19,26 @@ func MakeCookie(key string, value string, time int)(ck http.Cookie) {
 	}
 	return ck
 }
-//set cookie on user
-func SetCookietest(w http.ResponseWriter){
+//set an randan string on uesr cookie as token and return it string
+func SetVtfCookie(w http.ResponseWriter,)string{
 	randkey := CreateRandString(18)
-	fmt.Println("randky save to cookie is :" , randkey)
-	ck := MakeCookie("carkey", randkey, 30)
+	ck := MakeCookie("carkey", randkey, 300)	//time
 	http.SetCookie(w, &ck)
+	return randkey
 }
+
 //reade cookie from user
-func ReadCookieTest(req *http.Request)bool{
+func GetCookie(req *http.Request)string{
 	ck, err := req.Cookie("carkey")
     if err != nil {
 	   fmt.Println(err)
-	   return false
+	   return ""
 	}
-	fmt.Println(ck)
-	return true
+	return ck.Value
 }
 
-//get client ip from request header
-func GetIptest(r *http.Request){
+//get client ip from request header and return as string
+func GetIp(r *http.Request)string{
 	remoteAddr := r.RemoteAddr
 	XForwardedFor := "X-Forwarded-For"
     XRealIP       := "X-Real-IP"
@@ -53,5 +52,6 @@ func GetIptest(r *http.Request){
     if remoteAddr == "::1" {
         remoteAddr = "127.0.0.1"
 	}
-	mylog.Println(remoteAddr)
+	return remoteAddr
 }
+

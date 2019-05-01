@@ -98,9 +98,11 @@ func ConfirmCode(w http.ResponseWriter, r *http.Request) {
 
 //test the function of database
 func Test1(w http.ResponseWriter, r *http.Request){
-	tools.ReadCookieTest(r)
+	CreateVtify("blackcardriver",w,r)
 }
 
 func Test2(w http.ResponseWriter, r *http.Request){
-	tools.SetCookietest(w)
+	res := Vertify("blackcardriver" ,r)
+	fmt.Println("the vertify result is ",res)
 }
+

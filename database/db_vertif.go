@@ -24,7 +24,11 @@ func GetDataFromDb(){
 		mylog.Log("Take IPmap fall !")
 	}
 }
-
+//add an recode into keymap and ipmap
+func InsertMap(name, key, ip string){
+	KeyMap[name] = key
+	IpMap[name] = ip
+}
 //save the keyMap and Ipmap to teh database,return the effect rows
 //templace:insert into vtf_rk(uname,rk)values('asdf','adsfasdfasdf');
 //templace:update vtf_rk set rk = 'hahahahaha' where uname = 'asdf';
@@ -35,9 +39,10 @@ func SaveDataToDb(){
 	commant4 := `update vtf_ip set ip = $1 where uname = $2`
 	errnum := 0
 	for name,rk := range KeyMap {
-		_,err := db.Exec(commant2,name,rk)	//update
-		if err!=nil {	//if can not update then insert
-			_,err2 := db.Exec(commant1,name,rk)
+		_,err := db.Exec(commant1,name,rk)	//insert
+		//if cant not insert, mean there already have an colum with same name
+		if err!=nil {	
+			_,err2 := db.Exec(commant2,name,rk)
 			if err2!=nil {
 				mylog.Log("vtf_rk can't insert and updata ! : ",err)
 				errnum ++
@@ -45,9 +50,9 @@ func SaveDataToDb(){
 		}
 	}
 	for name,ip := range IpMap {
-		_,err := db.Exec(commant4,name,ip)	//update
-		if err!=nil {	//if can not update then insert
-			_,err2 := db.Exec(commant3,name,ip)
+		_,err := db.Exec(commant3,name,ip)
+		if err!=nil {
+			_,err2 := db.Exec(commant4,name,ip)
 			if err2!=nil {
 				mylog.Log("vtf_ip can't insert and updata ! : ",err)
 				errnum++

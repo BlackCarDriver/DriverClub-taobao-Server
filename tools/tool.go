@@ -115,3 +115,9 @@ func CreateRandString(len int) string{
 	}
     return string(bytes)
 }
+//display a map
+func DispalyMap(m map[string]string){
+	for k,v:=range m {
+		fmt.Println(k,"  -> ",v)
+	} 
+}
