@@ -20,6 +20,7 @@ func main() {
 	mux.HandleFunc("/data2", router.TestData2)
 	mux.HandleFunc("/getmsg/goods/souce", router.TestData3)
 	mux.HandleFunc("/getmsg/usermsg", router.GetUserMsg)
+	mux.HandleFunc("/getmsg/usershort", router.Usershort)
 	mux.HandleFunc("/getmsg/othermsg", router.GetUserMsg2)
 	mux.HandleFunc("/upload/goods", router.TestData4)
 	mux.HandleFunc("/upload/cover", router.GetCover)

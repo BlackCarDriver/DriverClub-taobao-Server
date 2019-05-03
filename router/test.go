@@ -32,6 +32,12 @@ func TestData(w http.ResponseWriter, r *http.Request) {
 	tools.WriteJson(w, data.MockData)
 }
 
+func Usershort(w http.ResponseWriter, r *http.Request) {
+	tools.SetHeader(w)
+	tools.WriteJson(w, data.Shortmsg)
+}
+
+
 //send back type message of goods
 func TestData2(w http.ResponseWriter, r *http.Request) {
 	tools.SetHeader(w)

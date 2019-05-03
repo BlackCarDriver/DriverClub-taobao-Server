@@ -1,5 +1,15 @@
 package data
 
+//homepage -> user short message
+type UserShort struct{
+	Imgurl string `json:"imgurl"`
+    Grade int `json:"grade"`
+    Score  int `json:"score"`
+    Message int `json:"message"`
+    Goods int `json:"goods"`
+    Lastime string `json:"lastime"`
+}
+
 //used in set personal message page
 type Usermsg struct {
 	Username string `json:"username"`
@@ -63,6 +73,11 @@ type Account1 struct {
 	Email    string `json:"email"`
 	Code     string `json:"code"`
 }
+
+var Shortmsg = UserShort{
+	"https://avatar.csdn.net/0/E/6/3_blackcardriver.jpg",39,3000,23,23,"10天前",
+}
+
 
 var Mockpersondata = Usermsg{
 	"BlackCarDriver",
