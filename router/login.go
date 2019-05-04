@@ -15,7 +15,8 @@ import(
 
 //user login, check the user name and password return state or token
 func Login(w http.ResponseWriter, r *http.Request) {
-	tools.SetHeader(w)
+	fmt.Println("login")
+	tools.SetHeader2(w,r)
 	if r.Method != "POST" {
 		return
 	}

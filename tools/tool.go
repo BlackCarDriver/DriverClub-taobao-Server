@@ -40,6 +40,12 @@ func SetHeader(w http.ResponseWriter) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Headers", "content-type")
 }
+//uue it when need to send cookie
+func SetHeader2(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin",r.Header.Get("Origin"))
+	w.Header().Set("Access-Control-Allow-Headers", "content-type, *")
+	w.Header().Set("Access-Control-Allow-Credentials", "true")
+}
 
 //the simple function to handle the err,use avariable to contral
 //exist or containue when error happend

@@ -11,7 +11,8 @@ import (
 
 //return the short message of user show in homepage 
 func UserShortMsg(w http.ResponseWriter, r *http.Request) {
-	tools.SetHeader(w)
+	fmt.Println("usershortmsg")
+	tools. SetHeader2(w,r)
 	if r.Method != "POST" {
 		return
 	}
@@ -28,6 +29,7 @@ func UserShortMsg(w http.ResponseWriter, r *http.Request) {
 		tools.WriteJson(w, unsafe)
 		return
 	}
+	fmt.Println("Comfrim user scuess! state !")
 	data , res:= database.GetUserShortMsg(postname)
 	if res == scuess{
 		tools.WriteJson(w,data)

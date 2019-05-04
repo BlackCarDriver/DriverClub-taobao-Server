@@ -43,7 +43,6 @@ func Usershort(w http.ResponseWriter, r *http.Request) {
 func TestData2(w http.ResponseWriter, r *http.Request) {
 	tools.SetHeader(w)
 	tools.WriteJson(w, data.MockData2)
-	createVtify("black",w,r)
 }
 
 //return data of goods detail page
