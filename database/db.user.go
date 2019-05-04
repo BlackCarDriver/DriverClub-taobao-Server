@@ -19,3 +19,10 @@ func GetUserShortMsg(name string)(data.UserShort ,  int){
 	us.Imgurl = tools.CreateImgUrl(us.Imgurl)
 	return  us, scuess
 }
+
+//updata lasttime in usermsg2
+//templace :update usermsg2 set lasttime = now() where userid = (select id from account where uname = 'black');
+func UpdateLasttime(uname string){
+	commant:=`update usermsg2 set lasttime = now() where userid = (select id from account where uname = $1);`
+	db.Exec(commant, uname)
+}

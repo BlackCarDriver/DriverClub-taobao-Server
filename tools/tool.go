@@ -46,18 +46,22 @@ func SetHeader(w http.ResponseWriter) {
 //return 1 if the error is not null
 func HandleError(tag string, err error, method int) bool {
 	if err != nil {
-		fmt.Println(err)
 		switch method {
 		case 1:
-			mylog.Errorlog.Println(tag, err)
+			mylog.Log(tag, err)
 		case -1:
-			mylog.Errorlog.Fatal(tag, err)
+			mylog.Errorlog.Fatal(tag,err)
 		}
 		return true
 	}
-	return false
+	return false //error is null return false
 }
-
+//display a map
+func DispalyMap(m map[string]string){
+	for k,v:=range m {
+		fmt.Println(k,"  -> ",v)
+	} 
+}
 //display the content in http.Request
 func ShowPostData(r *http.Request) {
 	var postbody map[string]interface{}
@@ -115,12 +119,7 @@ func CreateRandString(len int) string{
 	}
     return string(bytes)
 }
-//display a map
-func DispalyMap(m map[string]string){
-	for k,v:=range m {
-		fmt.Println(k,"  -> ",v)
-	} 
-}
+
 //input two string in format  "2009-05-04 06:43:07.413275", 
 //return the return a string strand of the lap between two time
 func CountTimeLap(t1, t2 string) string{
@@ -141,6 +140,7 @@ func CountTimeLap(t1, t2 string) string{
 	}
 	return str 
 }
+
 //create the head_img_url of specified user
 //the format is like :http://localhost:8090/source/images?tag=headimg&&name=BlackCarDriver.png
 func CreateImgUrl(img_name string) string{

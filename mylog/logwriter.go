@@ -44,20 +44,12 @@ func init() {
 }
 
 func Log(any ...interface{}) {
-	for _,y := range any{
-		fmt.Print(y)
-		Taglog.Print(y)
-	}
-	fmt.Println("")
-	Taglog.Println("")
+	fmt.Println(any)
+	Taglog.Println(any)
 }
 func Println(any ...interface{}){
-	for _,y := range any{
-		fmt.Print(y)
-		Msglog.Print(y)
-	}
-	fmt.Println("")
-	Msglog.Println("")
+	fmt.Println(any)
+	Msglog.Println(any)
 }
 /*
 //if you write the method like the folowing links do,

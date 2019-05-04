@@ -2,13 +2,13 @@ package router
 
 import(
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"net/http"
 	"../data"
 	"../mylog"
 	"../database"
 	"../tools"
+	"fmt"
 )
 
 
@@ -31,10 +31,6 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	if res == enable {
 		createVtify(account.Name,w,r)
 	}
-	//reminder user if his broswer can not save the cookie
-	if  tools.TestCookie(w,r) == false {
-		tools.WriteJson(w,worng)
-	}
 	tools.WriteJson(w, res)
 }
 
@@ -50,15 +46,16 @@ func createVtify(username string, w http.ResponseWriter, r *http.Request){
 //evaluate the security of message that user loging,both the ip and key of user
 //are same to the  map will return 2, if just the key right return 1
 func vertify(username string, r *http.Request)int {
+	fmt.Println(tools.GetCookie(r))
 	mrk := database.KeyMap[username] 
 	mip := database.IpMap[username]
 	if mrk == "" || mip =="" {
-		fmt.Println("both is clear")
+		mylog.Println("vertify fall, username not in map !")
 		return 0	//need to login 
 	}
 	userip := tools.GetIp(r)
 	userrk := tools.GetCookie(r) 
-	//fmt.Println(userip , "   ", userrk)
+	mylog.Println("vertify user " + username +"   " + userip + "   " +userrk)
 	if userrk == mrk && userip == mip {
 		return 2	//it user can be certain
 	}

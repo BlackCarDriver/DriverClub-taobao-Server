@@ -9,7 +9,7 @@ import(
 the function of user Login writen in this file
 */
 
-//check the password 
+//check the password,when user login with password and username
 //templace: select count(id) from account where uname='black' and upassword='123456';
 func CheckLoginPassword(account data.Account2) int{
 	commant := `select count(id) from account where uname=$1 and upassword=$2`

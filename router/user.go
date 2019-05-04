@@ -4,7 +4,9 @@ import (
 	"io/ioutil"
 	"net/http"
 	"../database"
+	"../mylog"
 	"../tools"
+	"fmt"
 )
 
 //return the short message of user show in homepage 
@@ -20,6 +22,12 @@ func UserShortMsg(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	postname := postbody["name"]
+	fmt.Println(tools.GetCookie(r))
+	if safe:= vertify(postname, r); safe == 0 {
+		mylog.Log("UserShortMsg() receive a unsafe require, username is : "+postname)
+		tools.WriteJson(w, unsafe)
+		return
+	}
 	data , res:= database.GetUserShortMsg(postname)
 	if res == scuess{
 		tools.WriteJson(w,data)
@@ -27,3 +35,4 @@ func UserShortMsg(w http.ResponseWriter, r *http.Request) {
 	}
 	return
 }
+

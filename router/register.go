@@ -16,7 +16,7 @@ import (
 
 
 //check the message that user want to register, if every thing ok then 
-//should create an comfirm code and send it code to user
+//should create an comfirm code and send it code to user by email
 func ConfirMsg(w http.ResponseWriter, r *http.Request) {
 	tools.SetHeader(w)
 	if r.Method != "POST" {
@@ -98,13 +98,15 @@ func ConfirmCode(w http.ResponseWriter, r *http.Request) {
 
 
 func Test1(w http.ResponseWriter, r *http.Request){
-	res := tools.TestCookie(w,r)
-	fmt.Println(res)
-	tools.WriteJson(w,res)
+	ck, err := r.Cookie("carkey")
+	if tools.HandleError("GetCookie fall :",err,1){
+		return 
+	}
+	fmt.Println(ck)
 }
 
 func Test2(w http.ResponseWriter, r *http.Request){
-	res := vertify("blackcardriver" ,r)
+	res :=  tools.SetVtfCookie(w)
 	fmt.Println("the vertify result is ",res)
 }
 
