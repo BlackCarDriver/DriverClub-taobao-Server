@@ -9,7 +9,7 @@ import (
 	"strconv"
 	"regexp"
 	"time"
-
+	"../config"
 	"../mylog"
 )
 //the meaning of return value
@@ -121,3 +121,30 @@ func DispalyMap(m map[string]string){
 		fmt.Println(k,"  -> ",v)
 	} 
 }
+//input two string in format  "2009-05-04 06:43:07.413275", 
+//return the return a string strand of the lap between two time
+func CountTimeLap(t1, t2 string) string{
+	format:= "2006-01-02T15:04:05Z"
+	time1,_ := time.Parse(format, t1)
+	time2,_ := time.Parse(format,t2)
+	dura := time2.Sub(time1)
+	hf := dura.Hours()	//total number of hours
+	h := int(hf)
+	str := ""
+	switch  {
+	case h>= 720:
+		str = fmt.Sprintf("%d个月前", h/720)
+	case h >= 72: //more then three days
+		str = fmt.Sprintf("%d天前", h/24)
+	default:
+		str = fmt.Sprintf("%d小时前", h)
+	}
+	return str 
+}
+//create the head_img_url of specified user
+//the format is like :http://localhost:8090/source/images?tag=headimg&&name=BlackCarDriver.png
+func CreateImgUrl(img_name string) string{
+	templace:= config.Public_addr + `/source/images?tag=headimg&&name=`
+	return templace + img_name
+}
+

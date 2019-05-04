@@ -60,7 +60,7 @@ ON DELETE CASCADE
 ON UPDATE CASCADE
 );
 
-
+alter table usermsg2 add msgnum integer default 0;
 
 CREATE TABLE goods(
 goodsid INT NOT NULL,
@@ -180,11 +180,22 @@ CREATE TRIGGER init_user_msg AFTER INSERT ON account
 FOR EACH ROW EXECUTE PROCEDURE auditlogfunc();
 
 --add in 4-30
-create table token(
-tkey varchar(20) primary key,
-token varchar(25)
+create table vtf_rk(
+uname varchar(20) primary key,
+rk varchar(20)
+);
+create table vtf_ip(
+uname varchar(20) primary key,
+ip varchar(20)
 );
 
+--add in 5-4
+create view a_msg1 as select ac.id, ac.uname, msg.* from account as ac inner join usermsg1 as msg on ac.id = msg.userid;
+
+create view a_msg2 as select ac.id, ac.uname, msg.* from account as ac inner join usermsg2 as msg on ac.id = msg.userid;
+
+create view short_msg as select a.uname, a.rank, a.score, a.goodsnum, a.msgnum, a.lasttime, now(), b.imgurl from
+a_msg2 as a inner join a_msg1 as b on a.id = b.id;
 
 --still need to do:
 -- add a primary key for regcode table
