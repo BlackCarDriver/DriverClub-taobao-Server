@@ -24,7 +24,21 @@ var goodstext string = "undefine"
 
 func Test_connect(w http.ResponseWriter, r *http.Request) {
 	tools.SetHeader(w)
-	tools.WriteJson(w, "version :5-1-6-45")
+	content := ""
+	content += `<!DOCTYPE html><html lang="zh-CN"><head></head><body>`
+	for k,v := range r.Header {
+		content += "【" + k + "】     "
+		for _,v := range v {
+			content += v + "  "
+		}
+		content += "<br><br>"
+	}
+	content += "【 IP 】     " + tools.GetIp(r) + "<br>"
+	content += "【method】   " + r.Method + "<br>"
+	content += "【HOST】     " + r.Host + "<br>"
+	
+	content += `</body></html>`
+	w.Write([]byte(content))
 }
 
 //send back goods message
@@ -207,3 +221,4 @@ func GetPersonalMsg(w http.ResponseWriter, r *http.Request) {
 	}
 	return
 }
+
