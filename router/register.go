@@ -106,7 +106,10 @@ func Test1(w http.ResponseWriter, r *http.Request){
 }
 
 func Test2(w http.ResponseWriter, r *http.Request){
-	res :=  tools.SetVtfCookie(w)
-	fmt.Println("the vertify result is ",res)
+	if (vertify("black", r) ==0 ){
+		tools.WriteJson(w,worng)
+		return
+	}
+
 }
 

@@ -8,14 +8,14 @@ import(
 	"../mylog"
 	"../database"
 	"../tools"
-	"fmt"
+	// "fmt"
 )
 
 
 
 //user login, check the user name and password return state or token
 func Login(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("login")
+	//fmt.Println("login")
 	tools.SetHeader2(w,r)
 	if r.Method != "POST" {
 		return
@@ -45,9 +45,9 @@ func createVtify(username string, w http.ResponseWriter, r *http.Request){
 }
 
 //evaluate the security of message that user loging,both the ip and key of user
-//are same to the  map will return 2, if just the key right return 1
+//are same to the  map will return 2, if just the key right return 1,return 0 mean unsafe
 func vertify(username string, r *http.Request)int {
-	fmt.Println(tools.GetCookie(r))
+	//fmt.Println(tools.GetCookie(r))
 	mrk := database.KeyMap[username] 
 	mip := database.IpMap[username]
 	if mrk == "" || mip =="" {
@@ -64,4 +64,29 @@ func vertify(username string, r *http.Request)int {
 		return 1	//the ip have change
 	}
 	return 0	//need to login again
+}
+
+//change another vertify cookie
+//firstly it vertify the user cookie, if it is right then change the vertify code
+//else send an message to bloswer to clear the cookie and reload
+func ChangeCfCode(w http.ResponseWriter, r *http.Request){
+	tools.SetHeader2(w,r)
+	if r.Method != "POST" {
+		return
+	}
+	var strmap =  make( map[string]string )
+	body, _ := ioutil.ReadAll(r.Body)
+	err := json.Unmarshal(body, &strmap)
+	if tools.HandleError("unmarshal in ChangecfCode ", err, 1) {
+		tools.WriteJson(w, unknowerr)
+		return
+	}
+	username := strmap["name"]
+	if (vertify(username, r) ==0 ){
+		mylog.Log("Change Vertify code with unsafe require, username: "+username)
+		tools.WriteJson(w,worng)
+		return
+	}
+	createVtify(username, w,r)	
+	tools.WriteJson(w,scuess)
 }
